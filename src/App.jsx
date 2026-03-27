@@ -776,8 +776,131 @@ function KonfiguraceScreen({ konfigurace, setKonfigurace }) {
   );
 }
 
+// ── SCREEN: SEZNAM VYÚČTOVÁNÍ ─────────────────────────────────────────────────
+function SeznamVyuctovaniScreen({ vyuctovani, setVyuctovani }) {
+  const [filtrTyp, setFiltrTyp] = useState('vse');
+  const [filtrVysledek, setFiltrVysledek] = useState('vse');
+  const [razeni, setRazeni] = useState('datum_desc');
+
+  const filtered = vyuctovani
+    .filter(v => filtrTyp === 'vse' || v.typ === filtrTyp)
+    .filter(v => {
+      if (filtrVysledek === 'doplatek') return v.rozdil > 0;
+      if (filtrVysledek === 'preplatek') return v.rozdil <= 0;
+      return true;
+    })
+    .sort((a, b) => {
+      if (razeni === 'datum_desc') return b.datum.localeCompare(a.datum);
+      if (razeni === 'datum_asc') return a.datum.localeCompare(b.datum);
+      if (razeni === 'castka_desc') return b.celkem - a.celkem;
+      if (razeni === 'castka_asc') return a.celkem - b.celkem;
+      if (razeni === 'rozdil_desc') return b.rozdil - a.rozdil;
+      return 0;
+    });
+
+  const celkemDoplatku = filtered.filter(v => v.rozdil > 0).reduce((s, v) => s + v.rozdil, 0);
+  const celkemPreplatku = filtered.filter(v => v.rozdil <= 0).reduce((s, v) => s + Math.abs(v.rozdil), 0);
+
+  function smazat(id) {
+    setVyuctovani(prev => prev.filter(v => v.id !== id));
+  }
+
+  return (
+    <div>
+      <div style={S.card}>
+        <h2 style={S.h2}>Seznam vsech vyuctovani</h2>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
+          <div style={{ flex: 1, minWidth: 140 }}>
+            <label style={S.label}>Typ</label>
+            <select style={S.select} value={filtrTyp} onChange={e => setFiltrTyp(e.target.value)}>
+              <option value="vse">Vse</option>
+              <option value="elektrina">Elektrina</option>
+              <option value="plyn">Plyn</option>
+            </select>
+          </div>
+          <div style={{ flex: 1, minWidth: 140 }}>
+            <label style={S.label}>Vysledek</label>
+            <select style={S.select} value={filtrVysledek} onChange={e => setFiltrVysledek(e.target.value)}>
+              <option value="vse">Vse</option>
+              <option value="doplatek">Doplatky</option>
+              <option value="preplatek">Preplatky</option>
+            </select>
+          </div>
+          <div style={{ flex: 1, minWidth: 140 }}>
+            <label style={S.label}>Razeni</label>
+            <select style={S.select} value={razeni} onChange={e => setRazeni(e.target.value)}>
+              <option value="datum_desc">Datum (nejnovejsi)</option>
+              <option value="datum_asc">Datum (nejstarsi)</option>
+              <option value="castka_desc">Castka (nejvyssi)</option>
+              <option value="castka_asc">Castka (nejnizsi)</option>
+              <option value="rozdil_desc">Doplatek (nejvyssi)</option>
+            </select>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 16, marginBottom: 4 }}>
+          <div style={{ fontSize: 13, color: '#ef9a9a' }}>
+            Doplatky celkem: <strong style={S.mono}>{fmtKc(celkemDoplatku)}</strong>
+          </div>
+          <div style={{ fontSize: 13, color: '#a5d6a7' }}>
+            Preplatky celkem: <strong style={S.mono}>{fmtKc(celkemPreplatku)}</strong>
+          </div>
+          <div style={{ fontSize: 13, color: '#66bb6a', marginLeft: 'auto' }}>
+            {filtered.length} zaznam{filtered.length === 1 ? '' : 'u'}
+          </div>
+        </div>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div style={{ ...S.card, textAlign: 'center', color: '#2e7d32', padding: 48 }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>📋</div>
+          <div>Zadna vyuctovani nenalezena.</div>
+        </div>
+      ) : (
+        <div style={S.card}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={S.table}>
+              <thead>
+                <tr>
+                  <th style={S.th}>Datum</th>
+                  <th style={S.th}>Prodejna</th>
+                  <th style={S.th}>Typ</th>
+                  <th style={S.th}>Obdobi</th>
+                  <th style={S.th}>Castka</th>
+                  <th style={S.th}>Zalohy</th>
+                  <th style={S.th}>Vysledek</th>
+                  <th style={S.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map(v => (
+                  <tr key={v.id}>
+                    <td style={{ ...S.td, ...S.mono }}>{v.datum}</td>
+                    <td style={{ ...S.td, fontSize: 12 }}>{v.prodejna}</td>
+                    <td style={S.td}><span style={S.tag(v.typ === 'elektrina' ? 'green' : 'neutral')}>{v.typ}</span></td>
+                    <td style={{ ...S.td, fontSize: 11, color: '#66bb6a' }}>
+                      {v.obdobiOd && v.obdobiDo ? v.obdobiOd + ' / ' + v.obdobiDo : '-'}
+                    </td>
+                    <td style={{ ...S.td, ...S.mono }}>{fmtKc(v.celkem)}</td>
+                    <td style={{ ...S.td, ...S.mono }}>{fmtKc(v.zalohy)}</td>
+                    <td style={S.td}>
+                      {v.rozdil > 0
+                        ? <span style={S.tag('red')}>+ {fmtKc(v.rozdil)}</span>
+                        : <span style={S.tag('green')}>- {fmtKc(Math.abs(v.rozdil))}</span>}
+                    </td>
+                    <td style={S.td}><button style={S.btnDanger} onClick={() => smazat(v.id)}>x</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── HLAVNÍ APP ────────────────────────────────────────────────────────────────
-const SCREENS = ['Přehled', 'Odečty', 'Vyúčtování', 'AI analýza', 'Konfigurace'];
+const SCREENS = ['Přehled', 'Odečty', 'Vyúčtování', 'Seznam vyúčtování', 'AI analýza', 'Konfigurace'];
 
 export default function App() {
   const [screen, setScreen] = useState('Přehled');
@@ -809,6 +932,7 @@ export default function App() {
         {screen === 'Přehled' && <PrehledScreen odecty={odecty} vyuctovani={vyuctovani} />}
         {screen === 'Odečty' && <OdectyScreen odecty={odecty} setOdecty={setOdecty} konfigurace={konfigurace} />}
         {screen === 'Vyúčtování' && <VyuctovaniScreen vyuctovani={vyuctovani} setVyuctovani={setVyuctovani} />}
+        {screen === 'Seznam vyúčtování' && <SeznamVyuctovaniScreen vyuctovani={vyuctovani} setVyuctovani={setVyuctovani} />}
         {screen === 'AI analýza' && <AIScreen odecty={odecty} vyuctovani={vyuctovani} />}
         {screen === 'Konfigurace' && <KonfiguraceScreen konfigurace={konfigurace} setKonfigurace={setKonfigurace} />}
       </main>
