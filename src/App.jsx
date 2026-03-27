@@ -44,14 +44,15 @@ const S = {
   header: {
     background: '#0d1a0d',
     borderBottom: '1px solid #1a3a1a',
-    padding: '0 24px',
+    padding: '0 16px',
     display: 'flex',
     alignItems: 'center',
     gap: 16,
-    height: 56,
+    minHeight: 56,
     position: 'sticky',
     top: 0,
     zIndex: 100,
+    flexWrap: 'wrap',
   },
   logo: {
     fontWeight: 700,
@@ -65,6 +66,7 @@ const S = {
     gap: 4,
     marginLeft: 'auto',
     flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
   navBtn: (active) => ({
     padding: '6px 14px',
@@ -81,7 +83,7 @@ const S = {
   main: {
     maxWidth: 960,
     margin: '0 auto',
-    padding: '32px 24px',
+    padding: '16px 12px',
   },
   card: {
     background: '#0d1a0d',
@@ -900,7 +902,14 @@ function SeznamVyuctovaniScreen({ vyuctovani, setVyuctovani }) {
 }
 
 // ── HLAVNÍ APP ────────────────────────────────────────────────────────────────
-const SCREENS = ['Přehled', 'Odečty', 'Vyúčtování', 'Seznam vyúčtování', 'AI analýza', 'Konfigurace'];
+const SCREENS = [
+  { id: 'Přehled', label: 'Přehled' },
+  { id: 'Odečty', label: 'Odečty' },
+  { id: 'Vyúčtování', label: 'Vyúčtování' },
+  { id: 'Seznam vyúčtování', label: 'Seznam' },
+  { id: 'AI analýza', label: 'AI' },
+  { id: 'Konfigurace', label: 'Konfig.' },
+];
 
 export default function App() {
   const [screen, setScreen] = useState('Přehled');
@@ -924,7 +933,7 @@ export default function App() {
         <div style={S.logo}>⚡ EnergieJTX</div>
         <nav style={S.nav}>
           {SCREENS.map(s => (
-            <button key={s} style={S.navBtn(screen === s)} onClick={() => setScreen(s)}>{s}</button>
+            <button key={s.id} style={S.navBtn(screen === s.id)} onClick={() => setScreen(s.id)}>{s.label}</button>
           ))}
         </nav>
       </header>
