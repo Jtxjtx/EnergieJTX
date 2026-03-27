@@ -2,49 +2,34 @@ import React, { useState, useEffect } from 'react';
 
 // ── PRODEJNY ──────────────────────────────────────────────────────────────────
 const PRODEJNY = [
-  "Praha 1 – Centrum","Praha 2 – Vinohrady","Praha 3 – Žižkov","Praha 4 – Nusle",
-  "Praha 5 – Smíchov","Praha 6 – Dejvice","Praha 7 – Holešovice","Praha 8 – Karlín",
-  "Praha 9 – Vysočany","Praha 10 – Vršovice","Praha 11 – Chodov","Praha 12 – Modřany",
-  "Praha 13 – Stodůlky","Praha 14 – Černý Most","Praha 15 – Hostivař",
-  "Brno – Centrum","Brno – Královo Pole","Brno – Židenice","Brno – Bohunice",
-  "Brno – Líšeň","Brno – Bystrc","Brno – Řečkovice","Brno – Starý Lískovec",
-  "Ostrava – Centrum","Ostrava – Poruba","Ostrava – Zábřeh","Ostrava – Vítkovice",
-  "Ostrava – Hrabůvka","Ostrava – Mariánské Hory","Ostrava – Fifejdy",
-  "Plzeň – Centrum","Plzeň – Lochotín","Plzeň – Doubravka","Plzeň – Bory",
-  "Liberec – Centrum","Liberec – Rochlice","Liberec – Jeřáb",
-  "Olomouc – Centrum","Olomouc – Nová Ulice","Olomouc – Hodolany",
-  "České Budějovice – Centrum","České Budějovice – Suché Vrbné",
-  "Hradec Králové – Centrum","Hradec Králové – Slezské Předměstí",
-  "Pardubice – Centrum","Pardubice – Polabiny",
-  "Ústí nad Labem – Centrum","Ústí nad Labem – Severní Terasa",
-  "Havířov – Centrum","Havířov – Šumbark",
-  "Zlín – Centrum","Zlín – Malenovice",
-  "Kladno – Centrum","Kladno – Rozdělov",
-  "Most – Centrum","Most – Sídliště",
-  "Karviná – Centrum","Karviná – Ráj",
-  "Opava – Centrum","Opava – Kateřinky",
-  "Frýdek-Místek – Centrum","Frýdek-Místek – Místek",
-  "Jihlava – Centrum","Jihlava – Horní Kosov",
-  "Teplice – Centrum","Teplice – Trnovany",
-  "Děčín – Centrum","Děčín – Podmokly",
-  "Chomutov – Centrum","Chomutov – Jirkov",
-  "Mladá Boleslav – Centrum","Mladá Boleslav – Severní Sídliště",
-  "Prostějov – Centrum","Prostějov – Vrahovice",
-  "Přerov – Centrum","Přerov – Předmostí",
-  "Třinec – Centrum","Třinec – Lyžbice",
-  "Příbram – Centrum","Příbram – Březové Hory",
-  "Znojmo – Centrum","Znojmo – Přímětice",
-  "Cheb – Centrum","Cheb – Skalka",
-  "Sokolov – Centrum","Sokolov – Michal",
-  "Kolin – Centrum","Kolin – Zálabí",
-  "Trutnov – Centrum","Trutnov – Poříčí",
-  "Kroměříž – Centrum","Kroměříž – Vážany",
-  "Uherské Hradiště – Centrum","Uherské Hradiště – Mařatice",
-  "Šumperk – Centrum","Šumperk – Temenice",
-  "Nový Jičín – Centrum","Nový Jičín – Žilina",
-  "Vsetín – Centrum","Vsetín – Rokytnice",
-  "Blansko – Centrum","Blansko – Horní Lhota",
-  "Hodonín – Centrum","Hodonín – Bažantnice",
+  "Benesov (BNS-01)","Beroun (BER-01)","Brandys nad Labem (BRL-01)","Bruntal (BRU-01)",
+  "Breclav (BRC-01)","Bystrice nad Pernstejnem (BYS-01)","Caslav (CAS-01)","Celakovice (CEL-01)",
+  "Ceska Lipa (CLI-01)","Ceske Budejovice (CBJ-01)","Cesky Krumlov (CKR-01)","Domazlice (DOM-01)",
+  "Dvur Kralove nad Labem (DVK-01)","Frydek-Mistek (FRM-01)","Havlickuv Brod (HVB-01)",
+  "Hlinsko v Cechach (HLI-01)","Hlucin (HLU-01)","Hodonin (HOD-01)","Holesov (HOL-01)",
+  "Horazdovice (HOR-01)","Horice (HOI-01)","Hradec Kralove (HRK-01)","Hranice (HRA-01)",
+  "Cheb (CHE-01)","Chlumec nad Cidlinou (CHC-01)","Chotebor (CHT-01)","Chrudim (CHR-01)",
+  "Jablonec nad Nisou (JAB-01)","Jaromerico nad Rokytnou (JAR-01)","Jesenik (JES-01)",
+  "Jicin (JIC-01)","Jihlava (JIH-01)","Jindrichuv Hradec (JHR-01)","Kacov (KAC-01)",
+  "Karlovy Vary (KVA-01)","Kladno (KLA-01)","Kladno 2 (KLA-02)","Kolin (KOL-01)",
+  "Kromeriz (KRO-01)","Kutna Hora (KUT-01)","Lanskroun (LAN-01)","Ledec nad Sazavou (LED-01)",
+  "Letohrad (LET-01)","Liberec (LIB-01)","Litomerice (LIT-01)","Litomysl (LTM-01)",
+  "Louny (LOU-01)","Lysa nad Labem (LYS-01)","Marianske Lazne (MAL-01)","Melnik (MEL-01)",
+  "Milevsko (MIL-01)","Mlada Boleslav (MLB-01)","Mlada Vozice (MLV-01)","Mnichovo Hradiste (MNH-01)",
+  "Nove Mesto na Morave (NMM-01)","Nove Mesto nad Metuji (NMT-01)","Novy Bydzov (NBY-01)",
+  "Novy Jicin (NJI-01)","Nymburk (NYM-01)","Olomouc (OLM-01)","Opava (OPA-01)",
+  "Ostrava (OST-01)","Pardubice (PAR-01)","Pelhrimov (PEL-01)","Pisek (PIS-01)",
+  "Plzen mesto (PLZ-01)","Podebrady (POD-01)","Policka (POL-01)","Polna (PLN-01)",
+  "Praha Dejvice (PRG-01)","Praha Smichov (PRG-02)","Praha Strasnice (PRG-03)","Praha Vinohrady (PRG-04)",
+  "Prachatice (PRA-01)","Prostejov (PRO-01)","Pribor (PIB-01)","Pribram (PIM-01)",
+  "Rakovnik (RAK-01)","Roudnice nad Labem (ROU-01)","Rychnov nad Kneznou (RYC-01)",
+  "Ricany (RIC-01)","Sobotka (SOB-01)","Strakonice (STR-01)","Svitavy (SVI-01)",
+  "Sternberk (STE-01)","Sumperk (SUM-01)","Tabor Albert (TAB-01)","Tabor mesto (TAB-02)",
+  "Tachov (TAC-01)","Telc (TEL-01)","Teplice (TEP-01)","Trutnov (TRU-01)",
+  "Trebic (TRE-01)","Trebon (TRB-01)","Uherske Hradiste (UHR-01)","Uhlirsske Janovice (UHL-01)",
+  "Usti nad Labem (USL-01)","Valasske Mezirici (VAL-01)","Velke Mezirici (VEM-01)",
+  "Vlasim (VLA-01)","Votice (VOT-01)","Vsetin (VSE-01)","Vysoke Myto (VYM-01)",
+  "Znojmo (ZNO-01)","Zatec (ZAT-01)","Zelezny Brod (ZEB-01)",
 ];
 
 // ── STYLY ─────────────────────────────────────────────────────────────────────
@@ -414,29 +399,31 @@ function VyuctovaniScreen({ vyuctovani, setVyuctovani }) {
   const [prodejnaIdx, setProdejnaIdx] = useState(0);
   const [form, setForm] = useState({
     datum: dnes(), obdobiOd: '', obdobiDo: '',
-    spotreba: '', cenaKwh: '', zalohy: '', typ: 'elektrina',
+    spotreba: '', celkemKc: '', zalohy: '', typ: 'elektrina', poznamka: '',
   });
   const [msg, setMsg] = useState(null);
 
   const prodejna = PRODEJNY[prodejnaIdx];
   const zaznamy = vyuctovani.filter(v => v.prodejna === prodejna).sort((a, b) => b.datum.localeCompare(a.datum));
 
+  const celkem = parseFloat(form.celkemKc) || 0;
+  const zalohy = parseFloat(form.zalohy) || 0;
+  const rozdilPreview = celkem - zalohy;
+
   function ulozit() {
-    if (!form.spotreba || !form.cenaKwh) { setMsg({ type: 'error', text: 'Vyplňte spotřebu a cenu.' }); return; }
-    const spotreba = parseFloat(form.spotreba);
-    const cena = parseFloat(form.cenaKwh);
-    const zalohy = parseFloat(form.zalohy) || 0;
-    const celkem = spotreba * cena;
-    const rozdil = celkem - zalohy;
+    if (!form.celkemKc) { setMsg({ type: 'error', text: 'Vyplnte celkovou castku za obdobi.' }); return; }
     const zaznam = {
       id: Date.now(), prodejna, datum: form.datum,
       obdobiOd: form.obdobiOd, obdobiDo: form.obdobiDo,
-      typ: form.typ, spotreba, cenaKwh: cena, zalohy,
-      celkem, rozdil,
+      typ: form.typ,
+      spotreba: form.spotreba ? parseFloat(form.spotreba) : null,
+      celkem, zalohy,
+      rozdil: rozdilPreview,
+      poznamka: form.poznamka,
     };
     setVyuctovani(prev => [...prev, zaznam]);
-    setForm(f => ({ ...f, spotreba: '', cenaKwh: '', zalohy: '' }));
-    setMsg({ type: 'success', text: 'Vyúčtování uloženo.' });
+    setForm(f => ({ ...f, spotreba: '', celkemKc: '', zalohy: '', poznamka: '' }));
+    setMsg({ type: 'success', text: 'Vyuctovani ulozeno.' });
     setTimeout(() => setMsg(null), 3000);
   }
 
@@ -447,7 +434,7 @@ function VyuctovaniScreen({ vyuctovani, setVyuctovani }) {
   return (
     <div>
       <div style={S.card}>
-        <h2 style={S.h2}>Zadat vyúčtování</h2>
+        <h2 style={S.h2}>Zadat vyuctovani</h2>
         <FormGroup label="Prodejna">
           <select style={S.select} value={prodejnaIdx} onChange={e => setProdejnaIdx(Number(e.target.value))}>
             {PRODEJNY.map((p, i) => <option key={i} value={i}>{p}</option>)}
@@ -457,40 +444,45 @@ function VyuctovaniScreen({ vyuctovani, setVyuctovani }) {
         <div style={S.grid3}>
           <FormGroup label="Typ">
             <select style={S.select} value={form.typ} onChange={e => setForm(f => ({ ...f, typ: e.target.value }))}>
-              <option value="elektrina">Elektřina</option>
+              <option value="elektrina">Elektrina</option>
               <option value="plyn">Plyn</option>
             </select>
           </FormGroup>
-          <FormGroup label="Datum vyúčtování">
+          <FormGroup label="Datum vyuctovani">
             <input style={S.input} type="date" value={form.datum} onChange={e => setForm(f => ({ ...f, datum: e.target.value }))} />
           </FormGroup>
-          <FormGroup label="Období od">
+          <FormGroup label="Obdobi od">
             <input style={S.input} type="date" value={form.obdobiOd} onChange={e => setForm(f => ({ ...f, obdobiOd: e.target.value }))} />
           </FormGroup>
-          <FormGroup label="Období do">
+          <FormGroup label="Obdobi do">
             <input style={S.input} type="date" value={form.obdobiDo} onChange={e => setForm(f => ({ ...f, obdobiDo: e.target.value }))} />
           </FormGroup>
-          <FormGroup label={form.typ === 'plyn' ? 'Spotřeba (m³)' : 'Spotřeba (kWh)'}>
+          <FormGroup label={form.typ === 'plyn' ? 'Spotreba (m3) — volitelna' : 'Spotreba (kWh) — volitelna'}>
             <input style={S.input} type="number" placeholder="0" value={form.spotreba} onChange={e => setForm(f => ({ ...f, spotreba: e.target.value }))} />
           </FormGroup>
-          <FormGroup label={form.typ === 'plyn' ? 'Cena za m³ (Kč)' : 'Cena za kWh (Kč)'}>
-            <input style={S.input} type="number" placeholder="0.00" step="0.01" value={form.cenaKwh} onChange={e => setForm(f => ({ ...f, cenaKwh: e.target.value }))} />
+          <FormGroup label="Celkova castka za obdobi (Kc) *">
+            <input style={{ ...S.input, borderColor: '#4caf50' }} type="number" placeholder="0" value={form.celkemKc} onChange={e => setForm(f => ({ ...f, celkemKc: e.target.value }))} />
           </FormGroup>
-          <FormGroup label="Zaplacené zálohy (Kč)">
+          <FormGroup label="Zaplacene zalohy (Kc)">
             <input style={S.input} type="number" placeholder="0" value={form.zalohy} onChange={e => setForm(f => ({ ...f, zalohy: e.target.value }))} />
           </FormGroup>
         </div>
-        {form.spotreba && form.cenaKwh && (
+        <FormGroup label="Poznamka (volitelna)">
+          <input style={S.input} type="text" placeholder="Napr. spotova cena, mimoradny odber..." value={form.poznamka} onChange={e => setForm(f => ({ ...f, poznamka: e.target.value }))} />
+        </FormGroup>
+        {form.celkemKc && (
           <div style={{ ...S.alert('success'), marginBottom: 16 }}>
-            Celková cena: <strong style={S.mono}>{fmtKc(parseFloat(form.spotreba) * parseFloat(form.cenaKwh))}</strong>
+            Celkem: <strong style={S.mono}>{fmtKc(celkem)}</strong>
             {' · '}
-            {parseFloat(form.spotreba) * parseFloat(form.cenaKwh) - (parseFloat(form.zalohy) || 0) > 0
-              ? <span>Doplatek: <strong style={{ color: '#ef9a9a', ...S.mono }}>{fmtKc(parseFloat(form.spotreba) * parseFloat(form.cenaKwh) - (parseFloat(form.zalohy) || 0))}</strong></span>
-              : <span>Přeplatek: <strong style={{ color: '#a5d6a7', ...S.mono }}>{fmtKc(Math.abs(parseFloat(form.spotreba) * parseFloat(form.cenaKwh) - (parseFloat(form.zalohy) || 0)))}</strong></span>
+            {rozdilPreview > 0
+              ? <span>Doplatek: <strong style={{ color: '#ef9a9a', ...S.mono }}>{fmtKc(rozdilPreview)}</strong></span>
+              : rozdilPreview < 0
+              ? <span>Preplatek: <strong style={{ color: '#a5d6a7', ...S.mono }}>{fmtKc(Math.abs(rozdilPreview))}</strong></span>
+              : <span style={{ color: '#a5d6a7' }}>Vyrovnano</span>
             }
           </div>
         )}
-        <button style={S.btn} onClick={ulozit}>Uložit vyúčtování</button>
+        <button style={S.btn} onClick={ulozit}>Ulozit vyuctovani</button>
       </div>
 
       {zaznamy.length > 0 && (
